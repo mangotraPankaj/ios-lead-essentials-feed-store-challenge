@@ -22,4 +22,15 @@ extension ManagedFeedImage {
 	var local: LocalFeedImage {
 		return LocalFeedImage(id: id, description: imageDescription, location: location, url: url)
 	}
+
+	static func images(from localFeed: [LocalFeedImage], in context: NSManagedObjectContext) -> NSOrderedSet {
+		return NSOrderedSet(array: localFeed.map { local in
+			let managedImage = ManagedFeedImage(context: context)
+			managedImage.id = local.id
+			managedImage.imageDescription = local.description
+			managedImage.location = local.location
+			managedImage.url = local.url
+			return managedImage
+		})
+	}
 }
